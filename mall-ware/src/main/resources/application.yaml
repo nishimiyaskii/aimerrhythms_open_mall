@@ -6,6 +6,12 @@ spring:
     url: jdbc:mysql://192.168.110.135:3306/aimerrhythms_mall_wms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
     password: 123123
+  cloud:
+      nacos:
+        discovery:
+          server-addr: 127.0.0.1:8848
+  application:
+    name: mall-ware
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:

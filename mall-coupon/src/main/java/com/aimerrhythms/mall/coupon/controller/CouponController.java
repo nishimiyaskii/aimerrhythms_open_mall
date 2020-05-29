@@ -1,21 +1,16 @@
 package com.aimerrhythms.mall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.aimerrhythms.mall.coupon.entity.CouponEntity;
-import com.aimerrhythms.mall.coupon.service.CouponService;
 import com.aimerrhythms.common.utils.PageUtils;
 import com.aimerrhythms.common.utils.R;
+import com.aimerrhythms.mall.coupon.entity.CouponEntity;
+import com.aimerrhythms.mall.coupon.service.CouponService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.bind.annotation.*;
 
-
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * 优惠券信息
@@ -24,6 +19,7 @@ import com.aimerrhythms.common.utils.R;
  * @email nishimiyaskii@163.com
  * @date 2020-05-28 22:43:20
  */
+@RefreshScope
 @RestController
 @RequestMapping("coupon/coupon")
 public class CouponController {
@@ -31,11 +27,32 @@ public class CouponController {
     private CouponService couponService;
 
     /**
+     * 提供远程调用
+     */
+    @RequestMapping("/member/list")
+    public R memberCoupons() {
+        CouponEntity couponEntity = new CouponEntity();
+        couponEntity.setCouponName("满100-10");
+        return R.ok().put("coupons", Arrays.asList(couponEntity));
+    }
+
+    /**
+     * 测试配置中心
+     */
+    @Value("${coupon.env}")
+    private String dev;
+    @RequestMapping("/test")
+    public R test() {
+        return R.ok().put("dev", dev);
+    }
+
+
+    /**
      * 列表
      */
     @RequestMapping("/list")
     //@RequiresPermissions("coupon:coupon:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = couponService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -47,8 +64,8 @@ public class CouponController {
      */
     @RequestMapping("/info/{id}")
     //@RequiresPermissions("coupon:coupon:info")
-    public R info(@PathVariable("id") Long id){
-		CouponEntity coupon = couponService.getById(id);
+    public R info(@PathVariable("id") Long id) {
+        CouponEntity coupon = couponService.getById(id);
 
         return R.ok().put("coupon", coupon);
     }
@@ -58,8 +75,8 @@ public class CouponController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("coupon:coupon:save")
-    public R save(@RequestBody CouponEntity coupon){
-		couponService.save(coupon);
+    public R save(@RequestBody CouponEntity coupon) {
+        couponService.save(coupon);
 
         return R.ok();
     }
@@ -69,8 +86,8 @@ public class CouponController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("coupon:coupon:update")
-    public R update(@RequestBody CouponEntity coupon){
-		couponService.updateById(coupon);
+    public R update(@RequestBody CouponEntity coupon) {
+        couponService.updateById(coupon);
 
         return R.ok();
     }
@@ -80,8 +97,8 @@ public class CouponController {
      */
     @RequestMapping("/delete")
     //@RequiresPermissions("coupon:coupon:delete")
-    public R delete(@RequestBody Long[] ids){
-		couponService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids) {
+        couponService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

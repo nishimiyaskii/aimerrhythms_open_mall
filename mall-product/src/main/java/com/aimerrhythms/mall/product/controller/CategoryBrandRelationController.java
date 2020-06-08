@@ -1,19 +1,14 @@
 package com.aimerrhythms.mall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.aimerrhythms.mall.product.entity.CategoryBrandRelationEntity;
-import com.aimerrhythms.mall.product.service.CategoryBrandRelationService;
 import com.aimerrhythms.common.utils.PageUtils;
 import com.aimerrhythms.common.utils.R;
+import com.aimerrhythms.mall.product.entity.CategoryBrandRelationEntity;
+import com.aimerrhythms.mall.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -37,7 +32,6 @@ public class CategoryBrandRelationController {
     //@RequiresPermissions("product:categorybrandrelation:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = categoryBrandRelationService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -71,7 +65,6 @@ public class CategoryBrandRelationController {
     //@RequiresPermissions("product:categorybrandrelation:update")
     public R update(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
 		categoryBrandRelationService.updateById(categoryBrandRelation);
-
         return R.ok();
     }
 

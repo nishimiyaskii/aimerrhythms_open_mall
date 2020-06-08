@@ -52,6 +52,17 @@
 
 	<dependencies>
 
+		<!--
+			依赖common模块
+			因为前端发给网关的请求都拼接上了renren-fast的路径
+			所以设置前端把所有的请求都先发送到renren-fast，然后注册renren-fast服务
+		-->
+		<dependency>
+			<groupId>com.aimerrhythms.mall</groupId>
+			<artifactId>mall-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

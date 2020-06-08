@@ -5,15 +5,34 @@ spring:
         server-addr: 127.0.0.1:8848
     gateway:
       routes:
-        - id: baidu_route
-          uri: https://www.baidu.com
+        # 精确的路由规则优先级要高于模糊的，否则会导致路由失败
+        - id: product_route
+          uri: lb://mall-product
           predicates:
-            - Query=url,baidu
+            - Path=/api/product/**
+          filters:
+            # http://localhost:88/api/product/category/list/tree
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
 
-        - id: qq_route
-          uri: https://www.qq.com
+        - id: third_party_route
+          uri: lb://mall-third-party
           predicates:
-            - Query=url,qq
+            - Path=/api/thirdparty/oss/*
+          filters:
+            # 路由重写
+            # http://localhost:88/api/thirdparty/oss/policy
+            - RewritePath=/api/thirdparty/(?<segment>.*), /$\{segment}
+
+        # 前端项目路由规则：/api/**
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            # 路由重写
+            # http://localhost:88/api/captcha.jpg?uuid=28699cec-b685-4343-8a54-20f492a4da5e
+            - RewritePath=/api/(?<segment>.*), /renren-fast/$\{segment}
+
   application:
     name: mall-gateway
 server:

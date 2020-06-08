@@ -15,6 +15,7 @@ class MallProductApplicationTests {
     @Autowired
     BrandService brandService;
 
+
     @Test
     void contextLoads() {
 
